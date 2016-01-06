@@ -9,14 +9,14 @@
 # Usage:	Take a Domain Name file as parameter, check for all IP 
 #			corresponding to that DN and set a specific gateway for it
 # 
-# Usage domain: Made to be inserted into cron script
+# Usage domain: Made to be inserted into cron script on Linux only
 # 
 # Parameters: 	Only variables into the script :
-#				DNSFILE : Full path to the text file containing DN list
+#				DNFILE : Full path to the text file containing DN list
 #				GATEWAY : IP of the gateway used to contact corresponding
 #						  servers.
 # 
-# Config file:	Not really a config file but DNSFILE may be considered 
+# Config file:	Not really a config file but DNFILE may be considered 
 #				as one.
 #
 # Prerequisites : Need the dns util named dig and a redis-server
@@ -44,7 +44,7 @@ GATEWAY=192.168.1.1
 for myip in $(dig -f $DNFILE +noall +answer +short)
 do
         ip route add $myip/32 via $GATEWAY > /dev/null 2>&1
-        redis-cli SADD myip.new $plexip > /dev/null 2>&1
+        redis-cli SADD myip.new $myip > /dev/null 2>&1
 done
 
 
