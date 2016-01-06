@@ -43,7 +43,7 @@ GATEWAY=192.168.1.1
 # Add relevent Plex IP and store them in Redis
 for myip in $(dig -f $DNFILE +noall +answer +short)
 do
-        ip route add $plexip/32 via $GATEWAY > /dev/null 2>&1
+        ip route add $myip/32 via $GATEWAY > /dev/null 2>&1
         redis-cli SADD myip.new $plexip > /dev/null 2>&1
 done
 
